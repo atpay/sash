@@ -121,7 +121,7 @@ function sash {
         src=${users[$idx+i]}@${ips[$idx+i]}:${1}
         target=${2:-.}
       fi
-      (set -x; scp -i ~/.aws/${pems[$idx+i]}.pem $src $target)
+      (set -x; scp $src $target)
     done
     return 0
   fi
@@ -146,7 +146,7 @@ function sash {
         ssh_args=" $1"
         shift
       fi
-      (set -x; cssh -o "-i ~/.aws/$instances_data.pem$ssh_args" $* ${ips_with_user[@]})
+      (set -x; cssh -o "$ssh_args" $* ${ips_with_user[@]})
     fi
     return 0
   fi
@@ -174,7 +174,7 @@ function sash {
     echo "(out of ${number_of_instances} instances)"
   fi
   
-  (set -x; ssh -i ~/.aws/$pem.pem ${users[$idx-1]}@$ip $*)
+  (set -x; ssh ${users[$idx-1]}@$ip $*)
 }
 
 function _get_data {
